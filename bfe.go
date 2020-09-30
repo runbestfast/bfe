@@ -35,6 +35,7 @@ import (
 )
 
 var (
+	// 绑定输入参数
 	help        *bool   = flag.Bool("h", false, "to show help")
 	confRoot    *string = flag.String("c", "./conf", "root path of configuration")
 	logPath     *string = flag.String("l", "./log", "dir path of log")
@@ -83,6 +84,11 @@ func main() {
 	log4go.SetLogFormat(log4go.FORMAT_DEFAULT_WITH_PID)
 	log4go.SetSrcLineForBinLog(false)
 
+	/**
+	日志三类:1.控制台,自带 chan 缓存队列,限制消息数量.
+	2.info 级别日志,chan 有大小回阻塞等待
+	3.warn 和 fatal级别日志
+	*/
 	err = log.Init("bfe", logSwitch, *logPath, *stdOut, "midnight", 7)
 	if err != nil {
 		fmt.Printf("bfe: err in log.Init():%s\n", err.Error())
